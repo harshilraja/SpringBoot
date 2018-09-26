@@ -1,6 +1,7 @@
-spring-boot-swagger
+# spring-boot-swagger
+
 Spring Boot Swagger Integration Sample Project
 
 http://localhost:8080/swagger-ui.html
 
-Please refer Integrating Swagger with Spring Boot REST API blog post for more technical info
+Please refer [Integrating Swagger with Spring Boot REST API](http://blog.napagoda.com/2017/09/integrating-swagger-with-spring-boot.html) blog post for more technical info
