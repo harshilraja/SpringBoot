@@ -1,7 +1,3 @@
-C:\Users\Siva\Downloads\springboot-resttemplate\src\main\java\com\javasampleapproach\resttemplate\model\Customer.java
-C:\Users\Siva\Downloads\springboot-resttemplate\src\main\java\com\javasampleapproach\resttemplate\service\RestfulClient.java
-C:\Users\Siva\Downloads\springboot-resttemplate\src\main\java\com\javasampleapproach\util\Result.java
-C:\Users\Siva\Downloads\springboot-resttemplate\src\main\java\com\javasampleapproach\resttemplate\App.java
-C:\Users\Siva\Downloads\springboot-resttemplate\src\main\java\com\javasampleapproach\resttemplate\SpringbootResttemplateApplication.java
-C:\Users\Siva\Downloads\springboot-resttemplate\src\main\java\com\javasampleapproach\util\Response.java
-C:\Users\Siva\Downloads\springboot-resttemplate\src\main\java\com\javasampleapproach\util\RestResponse.java
+C:\Users\Siva\Downloads\springboot-restful-service\src\main\java\com\javasampleapproach\restfulservice\SpringbootRestServiceApplication.java
+C:\Users\Siva\Downloads\springboot-restful-service\src\main\java\com\javasampleapproach\restfulservice\model\Customer.java
+C:\Users\Siva\Downloads\springboot-restful-service\src\main\java\com\javasampleapproach\restfulservice\services\controller\WebController.java

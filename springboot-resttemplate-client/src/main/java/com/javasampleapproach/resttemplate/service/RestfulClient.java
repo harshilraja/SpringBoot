@@ -2,16 +2,24 @@ package com.javasampleapproach.resttemplate.service;
 
 import java.util.Arrays;
 
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.JsonObject;
 import com.javasampleapproach.resttemplate.model.Customer;
+import com.javasampleapproach.util.MyResponseErrorHandler;
 import com.javasampleapproach.util.Utils;
 
 public class RestfulClient {
@@ -48,58 +56,75 @@ public class RestfulClient {
 	}
 	
 	public void getPostResponse() {
-		Customer customer = new Customer(123, "Jack", 23);
-		String postUrl = "http://localhost:8080/post";
-	      HttpHeaders headers = new HttpHeaders();
-	     /* headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
-	      headers.setContentType(MediaType.APPLICATION_XML);*/
-	      headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
-	      headers.setContentType(MediaType.APPLICATION_JSON);
-	 
-	      RestTemplate restTemplate = new RestTemplate();
-	 
-	      // Data attached to the request.
-	      HttpEntity<Customer> requestBody = new HttpEntity<>(customer, headers);
-	 
-	      // Send request with POST method.
-	      String result = restTemplate.postForObject(postUrl, requestBody, String.class);
-	      
-	      System.out.println("Get Reponse -->"+result);
+		try {
+			Customer customer = new Customer(123, "Jack", 23);
+			String postUrl = "http://localhost:8080/post";
+			  HttpHeaders headers = new HttpHeaders();
+			 /* headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
+			  headers.setContentType(MediaType.APPLICATION_XML);*/
+			  headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
+			  headers.setContentType(MediaType.APPLICATION_JSON);
+			  RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+				restTemplate.setErrorHandler(new MyResponseErrorHandler());
+//	      RestTemplate restTemplate = new RestTemplate();
+			  
+ 
+			  // Data attached to the request.
+			  HttpEntity<Customer> requestBody = new HttpEntity<>(customer, headers);
+ 
+			  // Send request with POST method.
+			  String result = restTemplate.postForObject(postUrl, requestBody, String.class);
+			  restTemplate.getErrorHandler();
+			  
+			  System.out.println("Get Reponse -->456"+result);
+		}  catch (HttpClientErrorException e) {
+	        System.out.println("HttpClientErrorException");
+	    } catch (ResourceAccessException e) {
+	        System.out.println("ResourceAccessException");
+	    }
 	}
+	/**
+	 * 
+	 */
 	public void getGetResponse() {
 
-		String baseUrl = "http://localhost:8080/get";
-		
-		HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("my_other_key", "my_other_value");
-        
-        // HttpEntity<String>: To get result as String.
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl)
-        	    .queryParam("id", "1")
-        	    .queryParam("name", "Siva")
-        	    .queryParam("age", "34");
-        
-        System.out.println("Url -->"+builder.toUriString().toString());
-        
-        // RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
+		try {
+			String baseUrl = "http://localhost:8080/get";
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.set("my_other_key", "my_other_value");
+			
+			// HttpEntity<String>: To get result as String.
+			HttpEntity<String> entity = new HttpEntity<String>(headers);
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl)
+				    .queryParam("id", "1")
+				    .queryParam("name", "Siva")
+				    .queryParam("age", "34");
+			
+			System.out.println("Url -->"+builder.toUriString().toString());
+			
+			// RestTemplate
+			RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+			restTemplate.setErrorHandler(new MyResponseErrorHandler());
+
+			ResponseEntity<String> response = restTemplate.exchange(builder.toUriString().toString(), //
+			        HttpMethod.GET, entity, String.class);
  
-        // Send request with GET method, and Headers.
-        ResponseEntity<String> response = restTemplate.exchange(builder.toUriString().toString(), //
-                HttpMethod.GET, entity, String.class);
+			String result = response.getBody();
  
-        String result = response.getBody();
- 
-        System.out.println("Get Reponse -->"+result);
-        
-        JsonObject jsonObject = Utils.convertToJSON(result);
-        System.out.println("Id"+jsonObject.get("id"));
-        System.out.println("name"+jsonObject.get("name"));
-        System.out.println("age"+jsonObject.get("age"));
-	
+			System.out.println("Get Reponse -->123"+result);
+			
+			JsonObject jsonObject = Utils.convertToJSON(result);
+			System.out.println("Id"+jsonObject.get("id"));
+			System.out.println("name"+jsonObject.get("name"));
+			System.out.println("age"+jsonObject.get("age"));
+		} catch (HttpClientErrorException e) {
+	        System.out.println("HttpClientErrorException");
+	    } catch (ResourceAccessException e) {
+	        System.out.println("ResourceAccessException");
+	    }
 	}
 	/**
 	 * put entity
@@ -119,4 +144,28 @@ public class RestfulClient {
 		String deleteUl = "http://localhost:8080/delete/1";
 		restTemplate.delete(deleteUl);
 	}
+	
+	/*private ClientHttpRequestFactory getClientHttpRequestFactory() {
+	    int timeout = 5000;
+	    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory
+	      = new HttpComponentsClientHttpRequestFactory();
+	    clientHttpRequestFactory.setConnectTimeout(timeout);
+	    clientHttpRequestFactory.setConnectTimeout(timeout);
+	    clientHttpRequestFactory.setReadTimeout(timeout);
+	    return clientHttpRequestFactory;
+	}*/
+	
+	private ClientHttpRequestFactory getClientHttpRequestFactory() {
+        int timeout = 60000;
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeout)
+                .setConnectionRequestTimeout(timeout)
+                .setSocketTimeout(timeout)
+                .build();
+        CloseableHttpClient client = HttpClientBuilder
+                .create()
+                .setDefaultRequestConfig(config)
+                .build();
+        return new HttpComponentsClientHttpRequestFactory(client);
+    }
 }

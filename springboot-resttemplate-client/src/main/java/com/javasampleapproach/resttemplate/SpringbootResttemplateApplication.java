@@ -5,19 +5,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 
-import com.javasampleapproach.resttemplate.service.RestfulClient;
+import com.javasampleapproach.resttemplate.service.SpringRestClient;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = {EmbeddedServletContainerAutoConfiguration.class, WebMvcAutoConfiguration.class})
 public class SpringbootResttemplateApplication {
 
 	public static void main(String[] args) {
-		RestfulClient restfulClient = new RestfulClient();
+		/*RestfulClient restfulClient = new RestfulClient();
 	
 		restfulClient.getPostResponse();
 		
-		restfulClient.getGetResponse();
+		restfulClient.getGetResponse();*/
 		
+		SpringRestClient springRestClient = new SpringRestClient();
+		springRestClient.getGetResponse();
 		/*
 		 * GET ENTITY
 		 */
