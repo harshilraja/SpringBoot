@@ -27,12 +27,11 @@ public class CsvView extends AbstractCsvView {
                 CsvPreference.STANDARD_PREFERENCE);
 
         csvWriter.writeHeader(header);
-
-        for (User user : users) {
-            csvWriter.write(user, header);
+        if(users!=null && users.size()>0) {
+	        for (User user : users) {
+	            csvWriter.write(user, header);
+	        }
+	        csvWriter.close();
         }
-        csvWriter.close();
-
-
     }
 }

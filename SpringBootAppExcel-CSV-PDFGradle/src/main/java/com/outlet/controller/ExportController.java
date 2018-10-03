@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.outlet.resolver.ExcelViewResolver;
 import com.outlet.service.UserService;
 
 
@@ -21,6 +22,7 @@ public class ExportController {
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public String download(Model model) {
         model.addAttribute("users", userService.findAllUsers());
-        return "";
+        ExcelViewResolver ExcelViewResolver = new ExcelViewResolver();
+        return "index";
     }
 }
