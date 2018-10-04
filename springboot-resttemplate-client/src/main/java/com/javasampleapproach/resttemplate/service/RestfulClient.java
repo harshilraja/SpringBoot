@@ -126,6 +126,46 @@ public class RestfulClient {
 	        System.out.println("ResourceAccessException");
 	    }
 	}
+	
+	public void getGetResponseById() {
+
+		try {
+			String baseUrl = "http://localhost:8080/get";
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.set("my_other_key", "my_other_value");
+			
+			// HttpEntity<String>: To get result as String.
+			HttpEntity<String> entity = new HttpEntity<String>(headers);
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl)
+				    .queryParam("id", "1");
+				   
+			
+			System.out.println("Url -->"+builder.toUriString().toString());
+			
+			// RestTemplate
+			RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+			restTemplate.setErrorHandler(new MyResponseErrorHandler());
+
+			ResponseEntity<String> response = restTemplate.exchange(builder.toUriString().toString(), //
+			        HttpMethod.GET, entity, String.class);
+ 
+			String result = response.getBody();
+ 
+			System.out.println("Get Reponse -->123"+result);
+			
+			JsonObject jsonObject = Utils.convertToJSON(result);
+			System.out.println("Id"+jsonObject.get("id"));
+			System.out.println("name"+jsonObject.get("name"));
+			System.out.println("age"+jsonObject.get("age"));
+		} catch (HttpClientErrorException e) {
+	        System.out.println("HttpClientErrorException");
+	    } catch (ResourceAccessException e) {
+	        System.out.println("ResourceAccessException");
+	    }
+	}
 	/**
 	 * put entity
 	 */

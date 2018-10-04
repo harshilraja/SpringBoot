@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.ResponseErrorHandler;
 
 public class MyResponseErrorHandler implements ResponseErrorHandler {
@@ -21,6 +22,10 @@ public class MyResponseErrorHandler implements ResponseErrorHandler {
             logger.debug(HttpStatus.FORBIDDEN + " response. Throwing authentication exception");
             throw new AuthenticationException();
         }
+        
+        if (clienthttpresponse.getStatusCode() == HttpStatus.NOT_FOUND) {
+            logger.debug(HttpStatus.FORBIDDEN + " response. Throwing authentication exception");
+        }
     }
 
     @Override
@@ -32,6 +37,15 @@ public class MyResponseErrorHandler implements ResponseErrorHandler {
             logger.debug(clienthttpresponse.getBody());
 
             if (clienthttpresponse.getStatusCode() == HttpStatus.FORBIDDEN) {
+                logger.debug("Call returned a error 403 forbidden resposne ");
+                return true;
+            }
+            if (clienthttpresponse.getStatusCode() == HttpStatus.NOT_FOUND) {
+                logger.debug("Call returned a error 403 forbidden resposne ");
+                return true;
+            }
+            
+            if (clienthttpresponse.getStatusCode() == HttpStatus.BAD_REQUEST) {
                 logger.debug("Call returned a error 403 forbidden resposne ");
                 return true;
             }

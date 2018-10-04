@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: spring-boot-thymeleaf-ajax-example
+Implementation-Version: 1.0
+Built-By: Siva
+Implementation-Vendor-Id: com.javabycode
+Build-Jdk: 1.8.0_91
+Implementation-URL: http://projects.spring.io/spring-boot/spring-boot-
+ thymeleaf-ajax-example/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
