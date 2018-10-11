@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Built-By: sivaraja
+Build-Jdk: 10.0.1
+Implementation-Title: spring-boot-security-oauth2-example
+Implementation-Version: 1.0-SNAPSHOT
+Implementation-Vendor-Id: com.hendisantika
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/spring-boot-
+ security-oauth2-example/
+Created-By: Maven Integration for Eclipse
+
