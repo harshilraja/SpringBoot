@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="TEXT_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>%d %-4relative [%thread] %-5level %logger{35} - %msg%n</Pattern>
+		</encoder>
+		
+		<!-- 
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		 -->
+	</appender>
+
+	<appender name="JSON_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>./log/log.json</file>
+
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+
+		<!-- 
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		 -->
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>./log/log-%d{yyyy-MM-dd}-(%i).json</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="TEXT_APPENDER" />
+		<appender-ref ref="JSON_APPENDER" />
+	</root>
+
+</configuration>
